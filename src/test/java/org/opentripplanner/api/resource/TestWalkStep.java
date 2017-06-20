@@ -20,31 +20,57 @@ import org.opentripplanner.api.model.WalkStep;
 import junit.framework.TestCase;
 
 public class TestWalkStep extends TestCase {
+    WalkStep step = new WalkStep();
+    double angle1 = 0.0;
+    double angle2 = 0.0;
 
-    public void testRelativeDirection() {
-        WalkStep step = new WalkStep();
-
-        double angle1 = degreesToRadians(0);
-        double angle2 = degreesToRadians(90);
-
+    public void testRelativeDirectionRight() {
+        setAngles(90);
         step.setDirections(angle1, angle2, false);
-        assertEquals(RelativeDirection.RIGHT, step.relativeDirection);
-        assertEquals(AbsoluteDirection.EAST, step.absoluteDirection);
+        testRelativeDirection(RelativeDirection.RIGHT);
+    }
 
+    public void testRelativeDirectionContinue() {
+        setAngles(5);
+        step.setDirections(angle1, angle2, false);
+        testRelativeDirection(RelativeDirection.CONTINUE);
+    }
+
+    public void testRelativeDirectionHardLeft() {
+        setAngles(240);
+        step.setDirections(angle1, angle2, false);
+        testRelativeDirection(RelativeDirection.HARD_LEFT);
+    }
+
+    public void testAbsoluteDirectionEast() {
+        setAngles(90);
+        step.setDirections(angle1, angle2, false);
+        testAbsoluteDirection(AbsoluteDirection.EAST);
+    }
+
+    public void testAbsoluteDirectionNorth() {
+        setAngles(5);
+        step.setDirections(angle1, angle2, false);
+        testAbsoluteDirection(AbsoluteDirection.NORTH);
+    }
+
+    public void testAbsoluteDirectionSouthWest() {
+        setAngles(240);
+        step.setDirections(angle1, angle2, false);
+        testAbsoluteDirection(AbsoluteDirection.SOUTHWEST);
+    }
+
+    public void setAngles(int deg2) {
         angle1 = degreesToRadians(0);
-        angle2 = degreesToRadians(5);
+        angle2 = degreesToRadians(deg2);
+    }
 
-        step.setDirections(angle1, angle2, false);
-        assertEquals(RelativeDirection.CONTINUE, step.relativeDirection);
-        assertEquals(AbsoluteDirection.NORTH, step.absoluteDirection);
+    public void testAbsoluteDirection(AbsoluteDirection direction) {
+        assertEquals(direction, step.absoluteDirection);
+    }
 
-        angle1 = degreesToRadians(0);
-        angle2 = degreesToRadians(240);
-
-        step.setDirections(angle1, angle2, false);
-        assertEquals(RelativeDirection.HARD_LEFT, step.relativeDirection);
-        assertEquals(AbsoluteDirection.SOUTHWEST, step.absoluteDirection);
-
+    private void testRelativeDirection(RelativeDirection direction) {
+        assertEquals(direction, step.relativeDirection);
     }
 
     private double degreesToRadians(double deg) {
