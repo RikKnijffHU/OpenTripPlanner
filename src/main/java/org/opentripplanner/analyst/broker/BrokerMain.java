@@ -27,10 +27,6 @@ public class BrokerMain implements Runnable {
 
     public Broker broker;
 
-    public BrokerMain(Properties brokerConfig) {
-        this.config = brokerConfig;
-    }
-
     public static void main(String[] args) {
 
         File cfg;
@@ -59,7 +55,9 @@ public class BrokerMain implements Runnable {
 
     }
 
-
+    public BrokerMain(Properties brokerConfig) {
+        this.config = brokerConfig;
+    }
 
     public void run() {
         int port = config.getProperty("port") != null ? Integer.parseInt(config.getProperty("port")) : DEFAULT_PORT;

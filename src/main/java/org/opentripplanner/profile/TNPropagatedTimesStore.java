@@ -124,7 +124,20 @@ public class TNPropagatedTimesStore {
             case BOOTSTRAP:
                 // now bootstrap out a 95% confidence interval on the time
                 int[] bootMeans = new int[N_BOOTSTRAPS];
-                nextRandom = getNextRandom(randomNumbers, nextRandom, count, timeList, bootMeans);
+                for (int boot = 0; boot < N_BOOTSTRAPS; boot++) {
+                    int bsum = 0;
+
+                    // sample from the Monte Carlo distribution with replacement
+                    for (int iter = 0; iter < count; iter++) {
+                        bsum += timeList
+                                .get(randomNumbers[nextRandom++ % randomNumbers.length] % count);
+                        //bsum += timeList.get(random.nextInt(count));
+                    }
+
+                    bootMeans[boot] = bsum / count;
+                }
+
+                Arrays.sort(bootMeans);
                 // 2.5 percentile of distribution of means
                 mins[stop] = bootMeans[N_BOOTSTRAPS / 40];
                 // 97.5 percentile of distribution of means
@@ -145,24 +158,6 @@ public class TNPropagatedTimesStore {
                 break;
             }
         }
-    }
-
-    private int getNextRandom(int[] randomNumbers, int nextRandom, int count, TIntList timeList, int[] bootMeans) {
-        for (int boot = 0; boot < N_BOOTSTRAPS; boot++) {
-            int bsum = 0;
-
-            // sample from the Monte Carlo distribution with replacement
-            for (int iter = 0; iter < count; iter++) {
-                bsum += timeList
-                        .get(randomNumbers[nextRandom++ % randomNumbers.length] % count);
-                //bsum += timeList.get(random.nextInt(count));
-            }
-
-            bootMeans[boot] = bsum / count;
-        }
-
-        Arrays.sort(bootMeans);
-        return nextRandom;
     }
 
     /**

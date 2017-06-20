@@ -9,7 +9,6 @@ import ch.qos.logback.core.FileAppender;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.opentripplanner.analyst.request.*;
 import org.opentripplanner.analyst.scenario.ScenarioStore;
-import org.opentripplanner.common.geometry.ZSampleGrid;
 import org.opentripplanner.inspector.TileRendererManager;
 import org.opentripplanner.reflect.ReflectiveInitializer;
 import org.opentripplanner.routing.core.RoutingRequest;
@@ -204,7 +203,4 @@ public class Router {
         return logger;
     }
 
-    public ZSampleGrid<SampleGridRenderer.WTWD> getSampleGrid(SampleGridRequest tgRequest, RoutingRequest sptRequest){
-       return sampleGridRenderer.getSampleGrid(tgRequest, sptRequest);
-    }
 }
