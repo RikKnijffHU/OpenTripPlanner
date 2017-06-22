@@ -205,6 +205,6 @@ public class Router {
     }
 
     public ZSampleGrid<SampleGridRenderer.WTWD> getSampleGridRenderer(SampleGridRequest tgRequest, RoutingRequest sptRequest){
-        sampleGridRenderer.getSampleGrid(tgRequest, sptRequest);
+        return sampleGridRenderer.getSampleGrid(tgRequest, sptRequest);
     }
 }
